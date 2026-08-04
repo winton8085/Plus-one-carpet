@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A2A5E">
+<title>Plus One Flooring · Book a free measure</title>
+<style>
+:root{
+  --navy:#0A2A5E;
+  --navy-dark:#061C40;
+  --blue-light:#E8EFF8;
+  --white:#FFFFFF;
+  --line:#0A2A5E;
+  --grey-text:#3A4A63;
+  --base:20px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+html[data-size="large"]{--base:24px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--white);color:var(--navy);
+  font-family:var(--sans);font-size:var(--base);line-height:1.55;
+  padding-bottom:70px;
+}
+.wrap{max-width:660px;margin:0 auto;padding:0 20px}
+h1,h2,h3{line-height:1.2;letter-spacing:-.01em}
+h1{font-size:1.9em;margin-bottom:.5em}
+h2{font-size:1.45em;margin-bottom:.6em}
+h3{font-size:1.1em}
+p{margin-bottom:1em}
+
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:4px solid #C9761C;outline-offset:3px
+}
+
+/* ---------- header ---------- */
+header{background:var(--navy);color:#fff;padding:16px 0}
+.head-in{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.name{font-size:1.35em;font-weight:700;line-height:1.25}
+.name span{display:block;font-size:.72em;font-weight:400;opacity:.85;letter-spacing:.04em;margin-top:2px}
+.sizer{display:flex;align-items:center;gap:8px;font-size:.7em}
+.sizer b{font-weight:400;opacity:.85}
+.sizer button{
+  min-width:48px;min-height:48px;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6);
+  font-family:inherit;cursor:pointer;border-radius:6px;font-weight:700
+}
+.sizer button[aria-pressed="true"]{background:#fff;color:var(--navy);border-color:#fff}
+.sizer button.sm{font-size:15px}
+.sizer button.lg{font-size:21px}
+
+/* ---------- intro ---------- */
+.intro{background:var(--navy);color:#fff;padding:26px 0 34px}
+.intro h1{font-size:2em;margin-bottom:.4em}
+.intro p{color:rgba(255,255,255,.9);margin-bottom:0;max-width:34ch}
+
+/* ---------- big book button ---------- */
+.book-btn{
+  display:block;width:100%;text-align:center;text-decoration:none;
+  background:#fff;color:var(--navy);border:3px solid #fff;border-radius:10px;
+  padding:22px 20px;margin-top:26px;
+  font-family:inherit;font-size:1.15em;font-weight:700;cursor:pointer;min-height:66px
+}
+.book-btn:active{background:var(--blue-light)}
+
+/* ---------- photos ---------- */
+.photos{padding:28px 0 8px}
+.photo-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.photo{
+  border:3px solid var(--navy);border-radius:10px;background:var(--blue-light);
+  aspect-ratio:4/3;overflow:hidden;position:relative;margin:0;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;font-family:inherit;color:var(--navy);cursor:pointer
+}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo.empty{border-style:dashed;cursor:default}
+.photo .ph{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;text-align:center;padding:16px
+}
+.photo.empty .ph{display:flex}
+.photo .ico{font-size:1.8em;line-height:1}
+.photo .ph span{font-size:.78em;font-weight:700}
+
+.more-btn{
+  display:block;width:100%;margin-top:16px;background:#fff;color:var(--navy);
+  border:3px solid var(--navy);border-radius:10px;padding:20px;min-height:66px;
+  font-family:inherit;font-size:1.05em;font-weight:700;cursor:pointer
+}
+.more-btn:active{background:var(--blue-light)}
+
+.gallery{display:none;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.gallery.show{display:grid}
+.thumb{
+  padding:0;border:3px solid var(--navy);border-radius:8px;overflow:hidden;
+  aspect-ratio:1/1;background:var(--blue-light);cursor:pointer;display:block;width:100%
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  display:none;position:fixed;inset:0;z-index:100;background:rgba(6,28,64,.97);
+  padding:16px;flex-direction:column;gap:14px
+}
+.lightbox.show{display:flex}
+.lb-count{color:#fff;text-align:center;font-weight:700;font-size:.9em}
+.lb-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+.lb-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lb-controls button{
+  min-height:68px;font-family:inherit;font-size:1em;font-weight:700;cursor:pointer;
+  border-radius:10px;border:3px solid #fff;background:transparent;color:#fff
+}
+.lb-close{
+  grid-column:1/-1;background:#fff!important;color:var(--navy)!important
+}
+
+/* ---------- sections ---------- */
+section{padding:30px 0;border-top:3px solid var(--line)}
+.steps{list-style:none;counter-reset:s}
+.steps li{
+  counter-increment:s;display:grid;grid-template-columns:52px 1fr;gap:16px;
+  padding:16px 0;border-bottom:1px solid #C9D6E8
+}
+.steps li:last-child{border-bottom:0}
+.steps li::before{
+  content:counter(s);background:var(--navy);color:#fff;border-radius:50%;
+  width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.05em
+}
+.steps p{margin:6px 0 0;color:var(--grey-text);font-size:.92em}
+
+/* ---------- form ---------- */
+#book{background:var(--blue-light);border-top:3px solid var(--line);padding:30px 0 40px}
+.field{margin-bottom:22px}
+.field label,.legend{display:block;font-weight:700;font-size:1.02em;margin-bottom:8px}
+.hint{display:block;font-weight:400;font-size:.8em;color:var(--grey-text);margin-top:-4px;margin-bottom:8px}
+input,select,textarea{
+  width:100%;font-family:inherit;font-size:1em;color:var(--navy);background:#fff;
+  border:3px solid var(--navy);border-radius:8px;padding:16px 14px;min-height:64px
+}
+textarea{min-height:110px;resize:vertical}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);background-position:calc(100% - 24px) 50%,calc(100% - 16px) 50%;background-size:8px 8px,8px 8px;background-repeat:no-repeat;padding-right:48px}
+.field.err input,.field.err select{border-color:#A5201A;background:#FDF1F0}
+.field.err .fielderr{display:block}
+.fielderr{display:none;margin-top:8px;color:#A5201A;font-weight:700;font-size:.85em}
+
+fieldset{border:0}
+.choices{display:grid;grid-template-columns:1fr;gap:12px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;width:1px;height:1px}
+.choice label{
+  display:flex;align-items:center;gap:14px;background:#fff;border:3px solid var(--navy);
+  border-radius:8px;padding:16px;min-height:66px;cursor:pointer;font-weight:400;margin:0
+}
+.choice label::before{content:"";width:26px;height:26px;border:3px solid var(--navy);border-radius:50%;flex:0 0 auto}
+.choice input:checked+label{background:var(--navy);color:#fff}
+.choice input:checked+label::before{background:#fff;box-shadow:inset 0 0 0 5px var(--navy);border-color:#fff}
+.choice input:focus-visible+label{outline:4px solid #C9761C;outline-offset:3px}
+
+.submit{
+  width:100%;background:var(--navy);color:#fff;border:3px solid var(--navy);border-radius:10px;
+  padding:22px;font-family:inherit;font-size:1.15em;font-weight:700;cursor:pointer;min-height:70px;margin-top:6px
+}
+.submit:active{background:var(--navy-dark)}
+.summary{
+  display:none;background:#FDF1F0;border:3px solid #A5201A;border-radius:8px;
+  padding:16px;margin-bottom:20px;color:#A5201A;font-weight:700
+}
+.summary.show{display:block}
+.summary ul{margin:8px 0 0 22px;font-weight:400}
+.reassure{margin-top:18px;font-size:.85em;color:var(--grey-text)}
+
+/* ---------- confirmation ---------- */
+.done{display:none;background:#fff;border:3px solid var(--navy);border-radius:10px;padding:24px;text-align:center}
+.done.show{display:block}
+.done .tick{font-size:2.4em;line-height:1}
+.done h2{margin:10px 0 8px}
+.done p{color:var(--grey-text);font-size:.95em}
+.send{
+  display:block;background:var(--navy);color:#fff;text-decoration:none;border-radius:10px;
+  padding:22px;font-weight:700;font-size:1.1em;min-height:70px;margin-top:8px
+}
+.linkish{
+  display:inline-block;margin-top:18px;color:var(--navy);font-size:.9em;
+  background:none;border:0;font-family:inherit;text-decoration:underline;cursor:pointer;
+  min-height:48px;padding:12px
+}
+
+/* ---------- contact ---------- */
+.contact{text-align:center}
+.contact a{color:var(--navy);font-weight:700;word-break:break-all}
+
+footer{background:var(--navy);color:rgba(255,255,255,.85);padding:24px 0 30px;font-size:.85em;text-align:center}
+
+/* ---------- larger screens ---------- */
+@media(min-width:700px){
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:repeat(4,1fr)}
+  .choices{grid-template-columns:repeat(3,1fr)}
+  .book-btn,.more-btn{max-width:420px}
+  .lightbox{padding:28px}
+  .lb-controls{max-width:620px;margin:0 auto;width:100%;grid-template-columns:1fr 1fr 1fr}
+  .lb-close{grid-column:auto;order:2}
+}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@media print{
+  header .sizer,.book-btn,.more-btn,.submit,.send,.linkish,.lightbox{display:none!important}
+  body{padding-bottom:0}
+  section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-in">
+    <div class="name">Plus One Flooring<span>Birmingham · Est. 2025</span></div>
+    <div class="sizer">
+      <b>Text size</b>
+      <button type="button" class="sm" id="sizeNormal" aria-pressed="true">A</button>
+      <button type="button" class="lg" id="sizeLarge" aria-pressed="false">A</button>
+    </div>
+  </div>
+</header>
+
+<div class="intro">
+  <div class="wrap">
+    <h1>Book a free measure</h1>
+    <p>We visit, measure your rooms, and give you a written price. It costs nothing and you are not committing to anything.</p>
+    <a class="book-btn" href="#book">Book my free measure</a>
+  </div>
+</div>
+
+<div class="wrap photos">
+  <div class="photo-grid" id="mainPhotos"></div>
+  <button type="button" class="more-btn" id="moreBtn" aria-expanded="false" aria-controls="gallery">More pictures</button>
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<section class="wrap">
+  <h2>What happens</h2>
+  <ol class="steps">
+    <li><div><h3>You send this form</h3><p>Takes about a minute. We reply the same day to agree a time.</p></div></li>
+    <li><div><h3>We measure your rooms</h3><p>About 30 to 45 minutes. We bring samples so you can see the colour in your own light.</p></div></li>
+    <li><div><h3>You get a written price</h3><p>Everything listed separately. No deposit, and you decide in your own time.</p></div></li>
+  </ol>
+</section>
+
+<section id="book">
+  <div class="wrap">
+    <h2>Your details</h2>
+    <p class="hint">Fill in the boxes below. Anything marked optional can be left blank.</p>
+
+    <div class="summary" id="summary" role="alert" aria-live="polite"></div>
+
+    <form id="bookform" novalidate>
+      <div class="field" id="f-name">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name" autocapitalize="words">
+        <span class="fielderr">Please enter your name</span>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label for="phone">Phone number</label>
+        <span class="hint">The easiest way for us to arrange a time.</span>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel">
+        <span class="fielderr">Please enter a phone number</span>
+      </div>
+
+      <div class="field" id="f-postcode">
+        <label for="postcode">Postcode</label>
+        <input id="postcode" name="postcode" type="text" autocomplete="postal-code" autocapitalize="characters">
+        <span class="fielderr">Please enter your postcode</span>
+      </div>
+
+      <div class="field">
+        <label for="address">Address <span style="font-weight:400">(optional)</span></label>
+        <input id="address" name="address" type="text" autocomplete="street-address">
+      </div>
+
+      <div class="field">
+        <label for="rooms">What needs measuring</label>
+        <select id="rooms" name="rooms">
+          <option>1 room</option>
+          <option>2 rooms</option>
+          <option>3 or more rooms</option>
+          <option>Stairs and landing</option>
+          <option>Whole house</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="field" id="f-date">
+        <label for="date">Day that suits you</label>
+        <input id="date" name="date" type="date">
+        <span class="fielderr">Please choose a day</span>
+      </div>
+
+      <div class="field">
+        <fieldset>
+          <legend class="legend">Time of day</legend>
+          <div class="choices">
+            <div class="choice"><input type="radio" id="t1" name="time" value="Morning" checked><label for="t1">Morning</label></div>
+            <div class="choice"><input type="radio" id="t2" name="time" value="Afternoon"><label for="t2">Afternoon</label></div>
+            <div class="choice"><input type="radio" id="t3" name="time" value="Evening"><label for="t3">Evening</label></div>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="field">
+        <label for="notes">Anything we should know <span style="font-weight:400">(optional)</span></label>
+        <input id="notes" name="notes" type="text">
+      </div>
+
+      <button class="submit" type="submit">Send my booking request</button>
+      <p class="reassure">Your details are used only to arrange the visit. Nothing is charged and nothing is booked until we speak.</p>
+    </form>
+
+    <div class="done" id="done" role="status">
+      <div class="tick" aria-hidden="true">✓</div>
+      <h2 id="doneTitle">Almost done</h2>
+      <p>Press the blue button below. Your email app will open with everything already filled in — just press send.</p>
+      <a class="send" id="mailto" href="#">Send my request</a>
+      <button type="button" class="linkish" id="edit">Go back and change something</button>
+    </div>
+  </div>
+</section>
+
+<section class="wrap contact">
+  <h2>Rather just email us?</h2>
+  <p><a href="mailto:plusoneflooring@gmail.com">plusoneflooring@gmail.com</a></p>
+</section>
+
+<footer>
+  <div class="wrap">Plus One Flooring · Birmingham · Est. 2025</div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Picture viewer">
+  <p class="lb-count" id="lbCount"></p>
+  <div class="lb-stage"><img id="lbImg" src="" alt=""></div>
+  <div class="lb-controls">
+    <button type="button" id="lbPrev">‹ Previous</button>
+    <button type="button" id="lbClose" class="lb-close">Close</button>
+    <button type="button" id="lbNext">Next ›</button>
+  </div>
+</div>
+
+<script>
+/* Edit this list to match your files and describe each picture. */
+var PICTURES=[
+  {file:'images/photo-1.jpg',  alt:'Carpet fitted in a living room'},
+  {file:'images/photo-2.jpg',  alt:'Stair runner with bound edges'},
+  {file:'images/photo-3.jpg',  alt:'Wood effect flooring in a hallway'},
+  {file:'images/photo-4.jpg',  alt:'Bedroom carpet, deep pile'},
+  {file:'images/photo-5.jpg',  alt:'Grey loop carpet on winder stairs'},
+  {file:'images/photo-6.jpg',  alt:'Kitchen vinyl flooring'},
+  {file:'images/photo-7.jpg',  alt:'Landing carpet and rods'},
+  {file:'images/photo-8.jpg',  alt:'Oak plank flooring in a dining room'},
+  {file:'images/photo-9.jpg',  alt:'Bathroom sheet vinyl'},
+  {file:'images/photo-10.jpg', alt:'Carpet tiles in an office'},
+  {file:'images/photo-11.jpg', alt:'Hallway runner with border'},
+  {file:'images/photo-12.jpg', alt:'Twist pile carpet in a lounge'},
+  {file:'images/photo-13.jpg', alt:'LVT flooring in a kitchen'},
+  {file:'images/photo-14.jpg', alt:'Stairs mid fitting'},
+  {file:'images/photo-15.jpg', alt:'Underlay laid ready for carpet'},
+  {file:'images/photo-16.jpg', alt:'Laminate flooring in a hallway'},
+  {file:'images/photo-17.jpg', alt:'Conservatory flooring'},
+  {file:'images/photo-18.jpg', alt:'Bedroom carpet, neutral colour'},
+  {file:'images/photo-19.jpg', alt:'Commercial vinyl in a studio'},
+  {file:'images/photo-20.jpg', alt:'Finished stairs and landing'},
+  {file:'images/photo-21.jpg', alt:'Carpet fitted in a bedroom'},
+  {file:'images/photo-22.jpg', alt:'Hallway flooring, finished job'}
+];
+
+var available=[];
+
+function makeMainPhoto(pic,i){
+  var b=document.createElement('button');
+  b.type='button';b.className='photo';
+  b.innerHTML='<span class="ph"><span class="ico" aria-hidden="true">▤</span><span>Photo space '+(i+1)+'</span></span>';
+  var img=new Image();
+  img.alt=pic.alt;
+  img.addEventListener('error',function(){b.classList.add('empty');b.disabled=true});
+  img.addEventListener('load',function(){b.insertBefore(img,b.firstChild)});
+  img.src=pic.file;
+  b.addEventListener('click',function(){ if(!b.disabled) openLightbox(available.indexOf(pic.file)); });
+  return b;
+}
+
+var mainPhotos=document.getElementById('mainPhotos');
+PICTURES.slice(0,2).forEach(function(pic,i){ mainPhotos.appendChild(makeMainPhoto(pic,i)); });
+
+var gallery=document.getElementById('gallery');
+PICTURES.forEach(function(pic){
+  var b=document.createElement('button');
+  b.type='button';b.className='thumb';b.hidden=true;
+  var img=new Image();
+  img.alt=pic.alt;
+  img.addEventListener('load',function(){
+    b.appendChild(img);b.hidden=false;
+    available.push(pic.file);
+    available.sort(function(a,c){
+      return PICTURES.findIndex(function(p){return p.file===a})-PICTURES.findIndex(function(p){return p.file===c});
+    });
+  });
+  img.src=pic.file;
+  b.addEventListener('click',function(){ openLightbox(available.indexOf(pic.file)); });
+  gallery.appendChild(b);
+});
+
+var moreBtn=document.getElementById('moreBtn');
+window.addEventListener('load',function(){
+  if(!available.length) moreBtn.hidden=true;
+});
+moreBtn.addEventListener('click',function(){
+  var open=gallery.classList.toggle('show');
+  moreBtn.setAttribute('aria-expanded',String(open));
+  moreBtn.textContent=open?'Hide pictures':'More pictures';
+  if(open) gallery.scrollIntoView({block:'nearest'});
+});
+
+/* lightbox */
+var lb=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg'),
+    lbCount=document.getElementById('lbCount'),lastFocus=null,current=0;
+
+function altFor(file){
+  var p=PICTURES.find(function(x){return x.file===file});
+  return p?p.alt:'';
+}
+function show(i){
+  if(!available.length) return;
+  current=(i+available.length)%available.length;
+  lbImg.src=available[current];
+  lbImg.alt=altFor(available[current]);
+  lbCount.textContent='Picture '+(current+1)+' of '+available.length;
+}
+function openLightbox(i){
+  if(i<0||!available.length) return;
+  lastFocus=document.activeElement;
+  show(i);
+  lb.classList.add('show');
+  document.body.style.overflow='hidden';
+  document.getElementById('lbClose').focus();
+}
+function closeLightbox(){
+  lb.classList.remove('show');
+  document.body.style.overflow='';
+  if(lastFocus) lastFocus.focus();
+}
+document.getElementById('lbPrev').addEventListener('click',function(){show(current-1)});
+document.getElementById('lbNext').addEventListener('click',function(){show(current+1)});
+document.getElementById('lbClose').addEventListener('click',closeLightbox);
+lb.addEventListener('click',function(e){ if(e.target===lb) closeLightbox(); });
+document.addEventListener('keydown',function(e){
+  if(!lb.classList.contains('show')) return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowLeft') show(current-1);
+  if(e.key==='ArrowRight') show(current+1);
+});
+
+/* text size */
+var normalBtn=document.getElementById('sizeNormal'),largeBtn=document.getElementById('sizeLarge');
+function setSize(large){
+  document.documentElement.setAttribute('data-size',large?'large':'normal');
+  normalBtn.setAttribute('aria-pressed',String(!large));
+  largeBtn.setAttribute('aria-pressed',String(large));
+}
+normalBtn.addEventListener('click',function(){setSize(false)});
+largeBtn.addEventListener('click',function(){setSize(true)});
+
+/* form */
+var form=document.getElementById('bookform'),done=document.getElementById('done'),summary=document.getElementById('summary');
+function v(id){return document.getElementById(id).value.trim()}
+
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  var checks=[
+    {id:'name',wrap:'f-name',label:'Your name'},
+    {id:'phone',wrap:'f-phone',label:'Phone number'},
+    {id:'postcode',wrap:'f-postcode',label:'Postcode'},
+    {id:'date',wrap:'f-date',label:'Day that suits you'}
+  ];
+  var missing=[];
+  checks.forEach(function(c){
+    var ok=v(c.id)!=='';
+    document.getElementById(c.wrap).classList.toggle('err',!ok);
+    if(!ok) missing.push(c.label);
+  });
+
+  if(missing.length){
+    summary.innerHTML='Please fill in these boxes:<ul><li>'+missing.join('</li><li>')+'</li></ul>';
+    summary.classList.add('show');
+    summary.scrollIntoView({block:'center'});
+    return;
+  }
+  summary.classList.remove('show');
+
+  var time=document.querySelector('input[name="time"]:checked').value;
+  var body=[
+    'Name: '+v('name'),
+    'Phone: '+v('phone'),
+    'Postcode: '+v('postcode'),
+    'Address: '+(v('address')||'-'),
+    'What needs measuring: '+v('rooms'),
+    'Day: '+v('date'),
+    'Time of day: '+time,
+    'Notes: '+(v('notes')||'-')
+  ].join('\n');
+
+  document.getElementById('mailto').href='mailto:plusoneflooring@gmail.com'
+    +'?subject='+encodeURIComponent('Free measure request - '+v('name')+' - '+v('postcode'))
+    +'&body='+encodeURIComponent(body);
+
+  document.getElementById('doneTitle').textContent='Almost done, '+v('name').split(' ')[0];
+  form.style.display='none';
+  done.classList.add('show');
+  done.scrollIntoView({block:'center'});
+});
+
+document.getElementById('edit').addEventListener('click',function(){
+  done.classList.remove('show');
+  form.style.display='block';
+  form.scrollIntoView({block:'center'});
+});
+</script>
+</body>
+</html>
+
